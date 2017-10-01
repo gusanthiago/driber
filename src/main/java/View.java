@@ -1,3 +1,4 @@
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import com.pengrad.telegrambot.TelegramBot;
@@ -34,32 +35,50 @@ public class View implements Observer {
 	/**
 	 * Models
 	 */
-	private Ride model;
+	private RideModel rideModel;
 	
+	/**
+	 * Interface Controller
+	 */
+	private Controller controller;
+	
+	
+	/**
+	 * Queue for Message
+	 */
 	int queuesIndex=0;
 	
-	public View(Ride model){
-		this.model = model; 
+	/**
+	 * Construtor da View
+	 * @param model
+	 */
+	public View(RideModel model){
+		this.rideModel = model; 
+	}
+
+	public void setController(Controller controller){ //Strategy Pattern
+		this.controller = controller;
 	}
 	
 	public void receiveUsersMessages() {
 
-		//infinity loop
 		while (true){
-		
-			//taking the Queue of Messages
-			updatesResponse =  bot.execute(new GetUpdates().limit(100).offset(queuesIndex));
+
 			
-			//Queue of messages
+			updatesResponse =  bot.execute(new GetUpdates().limit(100).offset(queuesIndex));	
 			List<Update> updates = updatesResponse.updates();
 
-			//taking each message in the Queue
 			for (Update update : updates) {
 				
 				//updating queue's index
 				queuesIndex = update.updateId()+1;	
 				System.out.println(update.message().text());
 				
+				if (update.message().text().equals("TestApi")) {
+					setController(new RideController(rideModel, this));
+					sendResponse = bot.execute(new SendMessage(update.message().chat().id(), "Teste api"));
+				}
+				callController(update);
 				
 			}
 
@@ -70,11 +89,11 @@ public class View implements Observer {
 	
 	
 	public void callController(Update update){
-	
+		this.controller.request(update);
 	}
 	
-	public void update(long chatId, String studentsData){
-		sendResponse = bot.execute(new SendMessage(chatId, studentsData));
+	public void update(long chatId, String data){
+		sendResponse = bot.execute(new SendMessage(chatId, data));
 	}
 	
 	public void sendTypingMessage(Update update){
