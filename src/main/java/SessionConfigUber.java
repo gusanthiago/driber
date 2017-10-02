@@ -26,8 +26,8 @@ public class SessionConfigUber {
 		
 		SessionConfiguration config = new SessionConfiguration.Builder()
 		    .setClientId("gMDRyAPtUbuYzT3YSo1xUHp4fMqPE8jt")
+		    .setClientSecret("Q2RAX7ii-YktQQTTHlH9t0I8Xlsra_Nop1aYEd2o")
 		    .setEnvironment(Environment.SANDBOX)
-		    .setServerToken("Dws-BSWccRbrDEz-v-44Fao4Dt6GwNntdsfRZr17")
 		    .build();
 
 		ServerTokenSession session = new ServerTokenSession(config);

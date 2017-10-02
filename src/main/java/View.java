@@ -42,6 +42,11 @@ public class View implements Observer {
 	 */
 	private Controller controller;
 	
+	/**
+	 * Behavior flag
+	 */
+	boolean behaviour = false;
+	
 	
 	/**
 	 * Queue for Message
@@ -72,13 +77,16 @@ public class View implements Observer {
 				
 				//updating queue's index
 				queuesIndex = update.updateId()+1;	
-				System.out.println(update.message().text());
 				
-				if (update.message().text().equals("TestApi")) {
+				
+				if(this.behaviour==true){
+					this.callController(update);
+					
+				} else if (update.message().text().equals("TestApi")) {
 					setController(new RideController(rideModel, this));
 					sendResponse = bot.execute(new SendMessage(update.message().chat().id(), "Teste api"));
+					this.behaviour = true;
 				}
-				callController(update);
 				
 			}
 
@@ -90,6 +98,7 @@ public class View implements Observer {
 	
 	public void callController(Update update){
 		this.controller.request(update);
+		this.behaviour = false;
 	}
 	
 	public void update(long chatId, String data){
