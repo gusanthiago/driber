@@ -18,7 +18,7 @@ repositories {
 
 dependencies {
 
-	compile 'com.github.pengrad:java-telegram-bot-api:3.3.0'
+	compile 'com.github.pengrad:java-telegram-bot-api:3.5.0'
 	
     // The production code uses the SLF4J logging API at compile time
     compile 'org.slf4j:slf4j-api:1.7.12'
@@ -36,8 +36,8 @@ dependencies {
 	compile group: 'com.google.code.gson', name: 'gson', version: '2.7'
 	
 	// https://developer.uber.com/docs/riders/ride-requests/tutorials/api/java
-	compile 'com.uber.sdk:rides:0.6.0'
-
+	compile 'com.uber.sdk:rides:0.7.0'
+	compile 'com.uber.sdk:uber-core-oauth-client-adapter:0.7.0'
     // Use JUnit test framework
     testImplementation 'junit:junit:4.12'
 }
