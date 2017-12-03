@@ -23,7 +23,7 @@ import com.pengrad.telegrambot.response.SendResponse;
  */
 public class View implements Observer {
 
-	TelegramBot bot = TelegramBotAdapter.build("465392658:AAExTEgOlK6ar4HHvhHjFID5-qCBRNH5fDw");	
+	TelegramBot bot = TelegramBotAdapter.build("465392658:AAF293v7b3VEUtriI6WNJKnUTB2jOooGWCs");	
 	
 	/**
 	 * Request and response for Telegram API 
@@ -72,24 +72,30 @@ public class View implements Observer {
 			
 			updatesResponse =  bot.execute(new GetUpdates().limit(100).offset(queuesIndex));	
 			List<Update> updates = updatesResponse.updates();
-
-			for (Update update : updates) {
-				
-				//updating queue's index
-				queuesIndex = update.updateId()+1;	
-				
-				
-				if(this.behaviour==true){
-					this.callController(update);
+//			GetUpdates getUpdates = new GetUpdates().limit(100).offset(0).timeout(queuesIndex);
+//			List<Update> updates = updatesResponse.updates();
+			
+			if (updates != null) {
+				for (Update update : updates) {
 					
-				} else if (update.message().text().equals("TestApi")) {
-					setController(new RideController(rideModel, this));
-					sendResponse = bot.execute(new SendMessage(update.message().chat().id(), "Teste api"));
-					this.behaviour = true;
+					//updating queue's index
+					queuesIndex = update.updateId()+1;	
+					
+					
+					if(this.behaviour==true){
+						this.callController(update);
+						
+					} else if (update.message().text().equals("TestApi")) {
+						setController(new RideController(rideModel, this));
+						sendResponse = bot.execute(new SendMessage(update.message().chat().id(), "Teste api"));
+						this.behaviour = true;
+						this.callController(update);
+					}
+					
 				}
-				
+			} else {
+				System.out.println("null");
 			}
-
 		}
 		
 		

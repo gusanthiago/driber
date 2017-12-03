@@ -4,9 +4,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.uber.sdk.core.auth.Scope;
-import com.uber.sdk.rides.auth.OAuth2Credentials;
-import com.uber.sdk.rides.client.SessionConfiguration;
-import com.uber.sdk.rides.client.SessionConfiguration.Environment;
 import com.uber.sdk.rides.client.services.RidesService;
 
 
@@ -43,14 +40,13 @@ public class RideModel implements Subject {
 	// TODO request car
 	public static void requestRide() {
 		
-		SessionConfigUber sessionConfig = new SessionConfigUber();
 		try {
-			sessionConfig.getSessionConfig();
-		} catch (UnsupportedEncodingException e) {
+			RidesService rides = SessionConfigUber.getInstance();
+			
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 	
 	
