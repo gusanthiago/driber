@@ -18,7 +18,8 @@ Heitor Miranda Moreira
 7. You can then check the status of the trip with Uber Trip Simulator
 
 ### Interaction
-Starting the conversation with the bot:
+
+#### Starting the conversation with the bot:
 <img width="300" align="top" src="screen1.jpg"/>
 
 #### Requesting a ride:
@@ -31,7 +32,7 @@ Starting the conversation with the bot:
 <img width="300" align="top" src="status.jpg"/>
 
 ####  Checking the progress of the ride with Uber Trip Simulator:
-<img width="300" align="top" src="tripsimulator.png"/>
+<img width="900" align="top" src="tripsimulator.png"/>
 
 ### Class Diagram
 <img width="900" src="driber.png" />
