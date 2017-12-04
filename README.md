@@ -21,16 +21,16 @@ Heitor Miranda Moreira
 Starting the conversation with the bot:
 <img width="300" align="top" src="screen1.jpg"/>
 
-Requesting a ride:
+#### Requesting a ride:
 <img width="300" align="top" src="screen2.jpg"/>
 
-Choosing the product:
+#### Choosing the product:
 <img width="300" align="top" src="screen3.jpg"/>
 
-Checking the current status of your ride:
+#### Checking the current status of your ride:
 <img width="300" align="top" src="status.jpg"/>
 
-Checking the progress of the ride with Uber Trip Simulator:
+####  Checking the progress of the ride with Uber Trip Simulator:
 <img width="300" align="top" src="tripsimulator.png"/>
 
 ### Class Diagram
