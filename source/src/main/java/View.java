@@ -204,7 +204,7 @@ public class View implements Observer {
 			messageText = "Status da sua viagem - " + this.myRide.getStatus();
 			this.sendMessage(update.message().chat().id(), messageText);
 			
-			if (this.myRide.getStatus().toString().equals("completed")) {
+			if (this.myRide.getStatus().toString().equals("COMPLETED")) {
 				this.sendMessage(update.message().chat().id(), "Até mais, driber agradece sua companhia");
 				this.cleanStates();
 			}
