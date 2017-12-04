@@ -19,19 +19,19 @@ Heitor Miranda Moreira
 
 ### Interaction
 Starting the conversation with the bot:
-<img width="300" align="center" src="screen1.jpg"/>
+<img width="300" align="top" src="screen1.jpg"/>
 
 Requesting a ride:
-<img width="300" align="center" src="screen2.jpg"/>
+<img width="300" align="top" src="screen2.jpg"/>
 
 Choosing the product:
-<img width="300" align="center" src="screen3.jpg"/>
+<img width="300" align="top" src="screen3.jpg"/>
 
 Checking the current status of your ride:
-<img width="300" align="center" src="status.jpg"/>
+<img width="300" align="top" src="status.jpg"/>
 
 Checking the progress of the ride with Uber Trip Simulator:
-<img width="300" align="center" src="tripsimulator.png"/>
+<img width="300" align="top" src="tripsimulator.png"/>
 
 ### Class Diagram
 <img width="900" src="driber.png" />
