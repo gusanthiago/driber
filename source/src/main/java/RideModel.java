@@ -84,7 +84,18 @@ public class RideModel implements Subject {
 		return ride;
 		
 	}
+	
+	
+	public Ride selectRide(Ride ride) {
 		
+		try {
+			return ridesService.getRideDetails(ride.getRideId()).execute().body();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	
 	/**
 	 * Return list from ProductFare
@@ -148,5 +159,6 @@ public class RideModel implements Subject {
 
 		return productFare;
 	}
+
 	
 }

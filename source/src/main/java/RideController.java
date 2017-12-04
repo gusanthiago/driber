@@ -32,6 +32,11 @@ public class RideController implements Controller {
 		return rideModel.requestRide(productFare);
 	}
 	
+	public Ride statusForRide(Update update, Ride ride) {
+		view.sendTypingMessage(update);
+		return rideModel.selectRide(ride);	
+	}
+	
 	public List<ProductFare> findAllProducts(Location locationStart, Location locationFinish) {
 		return this.rideModel.selectAllProductsFares(locationStart, locationFinish);
 	}

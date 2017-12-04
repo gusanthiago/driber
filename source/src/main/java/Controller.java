@@ -20,5 +20,7 @@ public interface Controller {
 	
 	public Ride request(Update update, ProductFare product);
 	
+	public Ride statusForRide(Update update, Ride ride);
+	
 	public List<ProductFare> findAllProducts(Location locationStart, Location locationFinish);
 }

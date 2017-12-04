@@ -16,6 +16,7 @@ import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.BaseResponse;
 import com.pengrad.telegrambot.response.GetUpdatesResponse;
 import com.pengrad.telegrambot.response.SendResponse;
+import com.uber.sdk.rides.client.model.Ride;
 
 
 /**
@@ -57,7 +58,10 @@ public class View implements Observer {
 	 */
 	boolean isRequestRide = false;
 	boolean hasStartLocation = false;
+	boolean onTheRun = false;
 	
+	Ride myRide = null;
+
 	Location locationStart = null;
 	Location locationFinish = null;
 	
@@ -185,13 +189,24 @@ public class View implements Observer {
 			}
 			
 		// is working uber api
-		} else if (update.message().text() != null && this.locationFinish != null && this.locationStart != null) {
+		} else if (this.onTheRun == false && update.message().text() != null && this.locationFinish != null && this.locationStart != null) {
 			setController(new RideController(rideModel, this));
 			
 			for (ProductFare productFare : listProductFare) {
 				if (update.message().text().equals(productFare.getProduct().getDisplayName())) {
-					this.controller.request(update, productFare);
+					this.myRide = this.controller.request(update, productFare);
+					this.sendMessage(update.message().chat().id(), "Estamos processando digite 'status' para visualizar como esta sua viagem !");
+					this.onTheRun = true;
 				}
+			}
+		} else if (this.onTheRun && this.myRide != null) {
+			this.myRide = this.controller.statusForRide(update, this.myRide);
+			messageText = "Status da sua viagem - " + this.myRide.getStatus();
+			this.sendMessage(update.message().chat().id(), messageText);
+			
+			if (this.myRide.getStatus().toString().equals("completed")) {
+				this.sendMessage(update.message().chat().id(), "Até mais, driber agradece sua companhia");
+				this.cleanStates();
 			}
 		}
 		
@@ -202,6 +217,8 @@ public class View implements Observer {
 		this.hasStartLocation = false;
 		this.locationStart = null;
 		this.locationFinish = null;
+		this.myRide = null;
+		this.onTheRun = false;
 	}
 	
 	public void update(long chatId, String data){
