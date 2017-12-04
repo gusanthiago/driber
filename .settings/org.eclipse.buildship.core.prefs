@@ -1,7 +1,0 @@
-#Sat Sep 30 20:12:38 BRT 2017
-connection.gradle.distribution=GRADLE_DISTRIBUTION(VERSION(4.2))
-override.workspace.settings=true
-gradle.user.home=
-connection.project.dir=
-offline.mode=false
-build.scans.enabled=false
