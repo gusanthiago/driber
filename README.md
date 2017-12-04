@@ -4,9 +4,9 @@
 Bot to request a Uber ride through Telegram.
 This bot is just a simulation of a Uber request. No real drivers will be requested, but you may see the ride simulation through Uber Trip Simulator website (only available for the user who requested the ride).
 
-Developed by:
-Gustavo Santos Thiago
-Heitor Miranda Moreira
+### Developed by:
+#### Gustavo Santos Thiago
+#### Heitor Miranda Moreira
 
 ### How to request a ride?
 1. First of all, you have to start the conversation with the bot
