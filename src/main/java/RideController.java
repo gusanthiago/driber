@@ -1,6 +1,12 @@
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
+import com.pengrad.telegrambot.model.Location;
 import com.pengrad.telegrambot.model.Update;
+import com.uber.sdk.rides.client.model.Product;
+import com.uber.sdk.rides.client.model.Ride;
+import com.uber.sdk.rides.client.model.RideEstimate;
+import com.uber.sdk.rides.client.model.RideRequestParameters;
 
 /**
  * RideController.java
@@ -21,8 +27,13 @@ public class RideController implements Controller {
 		this.view = view; //connection Controller -> View
 	}
 	
-	public void request(Update update) {
+	public Ride request(Update update, ProductFare productFare) {
 		view.sendTypingMessage(update);
-		rideModel.requestRide();
+		return rideModel.requestRide(productFare);
 	}
+	
+	public List<ProductFare> findAllProducts(Location locationStart, Location locationFinish) {
+		return this.rideModel.selectAllProductsFares(locationStart, locationFinish);
+	}
+	
 }

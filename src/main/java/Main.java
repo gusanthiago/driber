@@ -11,7 +11,6 @@ public class Main {
 	public static RideModel model;
 	
 	public static void main(String[] args) {
-		System.out.println("oi tudo bem");
 		model = RideModel.getInstance();
 		initializeModels(model);
 		View view = new View(model);

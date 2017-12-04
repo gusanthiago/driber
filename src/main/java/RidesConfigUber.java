@@ -15,6 +15,7 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.uber.sdk.rides.auth.OAuth2Credentials;
 import com.uber.sdk.rides.client.CredentialsSession;
 import com.uber.sdk.rides.client.SessionConfiguration;
+import com.uber.sdk.rides.client.SessionConfiguration.Environment;
 import com.uber.sdk.rides.client.UberRidesApi;
 import com.uber.sdk.rides.client.error.ApiError;
 import com.uber.sdk.rides.client.error.ClientError;
@@ -30,11 +31,9 @@ import com.uber.sdk.rides.client.services.RidesService;
  * @author gusanthiago
  * @author hmmoreira
  */
-public class SessionConfigUber {
+public class RidesConfigUber {
 	
-	private static SessionConfigUber instance;
-	
-    public SessionConfigUber () {}
+	private static RidesConfigUber instance;
 
     private static LocalServerReceiver localServerReceiver;
 
@@ -45,31 +44,27 @@ public class SessionConfigUber {
      * @throws Exception
      */
     public static RidesService getInstance() throws Exception {
-        // Create or load a credential for the user.
-        SessionConfiguration config = createSessionConfiguration();
+        
+    	SessionConfiguration config = createSessionConfiguration();
         Credential credential = authenticate(System.getProperty("user.name"), config);
-        //Create an authenticator for Credential to use in our Session
         CredentialsSession session = new CredentialsSession(config, credential);
-
-        // Create the Uber API service object once the User is authenticated
         UberRidesApi uberRidesApi = UberRidesApi.with(session).build();
-
         RidesService service = uberRidesApi.createService();
-        // Fetch the user's profile.
-        System.out.println("Calling API to get the user's profile");
+        
+        System.out.println("Buscando usuário na API");
         Response<UserProfile> response = service.getUserProfile().execute();
 
         ApiError apiError = ErrorParser.parseError(response);
         if (apiError != null) {
             // Handle error.
             ClientError clientError = apiError.getClientErrors().get(0);
-            System.out.printf("Unable to fetch profile. %s", clientError.getTitle());
-            return service;
+            System.out.printf("Erro ao buscar usuário. %s", clientError.getTitle());
+            return null;
         }
-
-        // Success!
+     
         UserProfile userProfile = response.body();
-        System.out.printf("Logged in as %s%n", userProfile.getEmail());
+        System.out.printf("Logado como %s %s%n", userProfile.getFirstName(), userProfile.getLastName());
+        
         return service;
     }
 
@@ -85,10 +80,8 @@ public class SessionConfigUber {
         Credential credential = oAuth2Credentials.loadCredential(userId);
         if (credential == null || credential.getAccessToken() == null) {
             // Send user to authorize your application.
-            System.out.printf("Add the following redirect URI to your developer.uber.com application: %s%n",
-                    oAuth2Credentials.getRedirectUri());
-            System.out.println("Press Enter when done.");
-
+            oAuth2Credentials.getRedirectUri();
+    
             System.in.read();
 
             // Generate an authorization URL.
@@ -131,7 +124,13 @@ public class SessionConfigUber {
                 .setClientSecrets(sessionConfiguration.getClientId(), sessionConfiguration.getClientSecret())
                 .build();
     }
-
+    
+    /**
+     * Configura sessão do usuário
+     * 
+     * @return SessionConfiguration
+     * @throws Exception
+     */
     public static SessionConfiguration createSessionConfiguration() throws Exception {
         // Load the client ID and secret from {@code resources/secrets.properties}. Ideally, your
         // secrets would not be kept local. Instead, have your server accept the redirect and return
@@ -154,6 +153,7 @@ public class SessionConfigUber {
                 .setClientId(clientId)
                 .setClientSecret(clientSecret)
                 .setRedirectUri(redirectUri)
+                .setEnvironment(Environment.SANDBOX)
                 .build();
 
     }
@@ -163,7 +163,7 @@ public class SessionConfigUber {
      */
     private static Properties loadSecretProperties() throws Exception {
         Properties properties = new Properties();
-        InputStream propertiesStream = SessionConfigUber.class.getClassLoader().getResourceAsStream("secrets.properties");
+        InputStream propertiesStream = RidesConfigUber.class.getClassLoader().getResourceAsStream("secrets.properties");
         if (propertiesStream == null) {
             // Fallback to file access in the case of running from certain IDEs.
             File buildPropertiesFile = new File("src/main/resources/secrets.properties");
